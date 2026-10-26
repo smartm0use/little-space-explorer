@@ -1,5 +1,5 @@
-// Periodi medi in giorni terrestri; rotazione siderale, con segno retrogrado.
-// Le distanze, le dimensioni e alcune eccentricità sono adattate alla scena.
+// Mean periods in Earth days; sidereal rotation, negative for retrograde motion.
+// Distances, sizes and some eccentricities are adapted to the scene.
 export const surfaces = {
   Sole: 'sun', Mercurio: 'mercury', Venere: 'venus_atmosphere',
   Terra: 'earth_daymap', Luna: 'moon', Marte: 'mars', Giove: 'jupiter',

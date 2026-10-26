@@ -1,24 +1,25 @@
-# Mappe planetarie
+# Planetary maps
 
-Fonte: **Solar System Scope / INOVE** — https://www.solarsystemscope.com/textures/
+Source: **Solar System Scope / INOVE** — https://www.solarsystemscope.com/textures/
 
-Licenza: **Creative Commons Attribution 4.0 International (CC BY 4.0)**
+License: **Creative Commons Attribution 4.0 International (CC BY 4.0)**
 https://creativecommons.org/licenses/by/4.0/
 
-Mappe equirettangolari basate su immagini e dati NASA, adattate da Solar
-System Scope. Colori enfatizzati e alcune zone non mappate ricostruite dagli
-autori. La Terra è basata anche sui dati NASA Blue Marble.
+Equirectangular maps based on NASA imagery and data, adapted by Solar
+System Scope. The authors enhanced the colors and reconstructed some
+unmapped regions. Earth also uses NASA Blue Marble data.
 
-File originali scaricati da:
-`https://www.solarsystemscope.com/textures/download/2k_<nome>.jpg`
+Original files downloaded from:
+`https://www.solarsystemscope.com/textures/download/2k_<name>.jpg`
 
-Nomi: `sun`, `mercury`, `venus_atmosphere`, `earth_daymap`,
+Names: `sun`, `mercury`, `venus_atmosphere`, `earth_daymap`,
 `moon`, `mars`, `jupiter`, `saturn`, `uranus`, `neptune`.
 
-`4k_earth_daymap.jpg` è una riduzione a 4096×2048 del file originale
-`8k_earth_daymap.jpg`, per limitare memoria video e tempi di caricamento.
-Le altre mappe sono distribuite senza modifiche. I materiali e l'illuminazione
-del modello modificano l'aspetto a schermo.
+`4k_earth_daymap.jpg` is a 4096×2048 downscaled version of the original
+`8k_earth_daymap.jpg`, reducing GPU memory use and loading time.
+The other maps are distributed unchanged. The model's materials and
+lighting affect their appearance on screen.
 
-Per i corpi senza mappa locale si usa una superficie procedurale illustrativa,
-esplicitamente indicata nella scheda. Non è una ricostruzione fotografica.
+Bodies without a local map use an illustrative procedural surface,
+identified as such in their information cards. It is not a photographic
+reconstruction.
