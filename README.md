@@ -4,7 +4,7 @@
 
 [**Explore online →**](https://smartm0use.github.io/little-space-explorer/)
 
-[![Explore Earth in Little Space Explorer](web/anteprima-terra.png)](https://smartm0use.github.io/little-space-explorer/)
+[![Explore Earth in Little Space Explorer](web/preview-earth.png)](https://smartm0use.github.io/little-space-explorer/)
 
 Explore **55 celestial bodies** in your browser: the Sun, eight planets,
 30 moons, five recognized dwarf planets, and a selection of asteroids,
@@ -29,7 +29,7 @@ not every known body is included. See the [model notes and credits](https://smar
 With Python 3 installed:
 
 ```bash
-python3 avvia_browser.py
+python3 launch_browser.py
 ```
 
 The launcher opens your browser. Keep the terminal running; press Ctrl+C to
