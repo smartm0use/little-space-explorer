@@ -1,0 +1,31 @@
+/* Controls for the extended catalogue and physical simulation clock. */
+header h1 { font-size: clamp(23px, 3.1vw, 42px); }
+.panel { width: 308px; padding: 18px; }
+.panel > label { margin: 13px 0 7px; }
+#surface { width: 100%; margin-top: 8px; font-size: 11px; padding: 8px; }
+button:disabled { opacity: .38; cursor: default; }
+#speed-value { display: block; float: none; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.speed-control { display: flex; align-items: center; gap: 8px; margin: 9px 0 5px; }
+.speed-control input { margin: 0; min-width: 0; }
+.speed-control button { padding: 3px 9px; font-size: 17px; }
+.speed-shortcuts { display: flex; gap: 6px; }
+.speed-shortcuts button { flex: 1; padding: 6px 3px; font-size: 10px; }
+#time-note { font-size: 10px; color: #a2b2c9; line-height: 1.5; margin: 10px 0 5px; }
+#elapsed { font-size: 11px; color: #75ccc3; font-variant-numeric: tabular-nums; }
+.toggles { margin-top: 14px; }
+.toggles .wide { grid-column: 1 / -1; }
+.facts { font-size: 10px; line-height: 1.7; border-left: 2px solid #5ea59f; padding-left: 9px; color: #b6d5de; }
+#info p.map-source { font-size: 10px; color: #829ab7; margin: 9px 0 15px; }
+.label.minor { color: #d2b8dc; font-size: 10px; }
+details { border-top: 1px solid #243248; padding-top: 12px; margin-top: 15px; }
+summary { cursor: pointer; font-size: 11px; color: #afc9d9; }
+details p { color: #93a8c2; font-size: 11px; line-height: 1.65; }
+.credits { display: block; color: #76b4c5; font-size: 10px; margin-top: 14px; }
+#panel-toggle { display: none; }
+@media (max-width: 700px) {
+  header h1 { letter-spacing: -1px; }
+  header p { max-width: 320px; line-height: 1.5; }
+  .panel { width: 240px; top: 143px; max-height: calc(100dvh - 235px); }
+  #panel-toggle { display: block; position: absolute; right: 12px; top: 105px; padding: 7px 12px; font-size: 11px; }
+  #speed-value { font-size: 11px; }
+}

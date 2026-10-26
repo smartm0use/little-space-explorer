@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fonti e modello · Little Space Explorer</title><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>body{margin:40px auto;padding:0 24px;max-width:780px;background:#08111f;color:#dce9f4;font:16px/1.75 system-ui}a{color:#80d7cf}h1,h2{line-height:1.3}h2{margin-top:38px}li{margin:8px 0}small{color:#a1b7ce}</style></head>
+<body>
+<a href="index.html">← Torna a Little Space Explorer</a>
+<h1>Mappe, fonti e limiti del modello</h1>
+<p>Un atlante illustrativo dei principali corpi del sistema solare: non un catalogo completo e non uno strumento per prevedere le posizioni nel cielo.</p>
+<h2>Continenti e superfici planetarie</h2>
+<p>Mappe di <a href="https://www.solarsystemscope.com/textures/">Solar System Scope / INOVE</a>, distribuite con licenza <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>. Basate su immagini e dati NASA; la Terra utilizza anche NASA Blue Marble. Colori adattati dagli autori e dettagli di alcune regioni ricostruiti.</p>
+<p>Sole, Mercurio, atmosfera di Venere, Terra, Luna, Marte, Giove, Saturno, Urano e Nettuno usano mappe locali 2K. In modalità alta la Terra usa una mappa 4K, ridotta dall’originale 8K per contenere la memoria. La luce e i materiali del modello modificano l’aspetto. Non viene simulato il meteo attuale.</p>
+<p>Le superfici degli altri corpi sono procedurali e le forme semplificate: non sono fotografie, né mappe geografiche osservate. Questo vale anche per Plutone e Cerere.</p>
+<h2>Catalogo e dati astronomici</h2>
+<ul>
+<li><a href="https://science.nasa.gov/solar-system/">NASA · Sistema solare</a> e <a href="https://science.nasa.gov/dwarf-planets/">pianeti nani</a>: categorie e descrizioni. Sono distinti i cinque pianeti nani riconosciuti dai candidati transnettuniani.</li>
+<li><a href="https://ssd.jpl.nasa.gov/planets/phys_par.html">JPL · Parametri fisici dei pianeti</a>, <a href="https://ssd.jpl.nasa.gov/sats/">satelliti</a> e <a href="https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html">Small-Body Database</a>: riferimenti per periodi medi e piccoli corpi. I valori nel catalogo sono approssimati, non aggiornati in tempo reale.</li>
+<li>Plutone e le cinque lune; lune principali dei pianeti; Disnomia, Hiʻiaka, Namaka, Weywot e Vanth. Non tutti i satelliti noti sono rappresentati.</li>
+</ul>
+<h2>Che cosa significa “tempo reale”</h2>
+<p><strong>1× = un secondo simulato per secondo effettivo.</strong> 2× e 3× significano due e tre secondi simulati per secondo. 86.400× equivale a 1 giorno al secondo. Il fattore è identico per orbite planetarie, orbite lunari e rotazioni modellate: le lune non hanno più un rallentamento separato.</p>
+<p>Il tempo usa l’orologio del browser, non il numero di fotogrammi. Continua anche tornando a una scheda rimasta in background, salvo pausa. I periodi siderali sono medi; le lune con rotazione non modellata restano ferme sul proprio asse. A velocità molto alte il campionamento dei fotogrammi può far apparire fermi o invertiti i moti più rapidi.</p>
+<h2>Scale e semplificazioni</h2>
+<p>Dimensioni e distanze sono adattate, non confrontabili in scala. I pianeti seguono orbite circolari; i piccoli corpi seguono ellissi kepleriane illustrative con inclinazioni e nodi semplificati. Per gli oggetti lontani anche l’eccentricità è compressa. Le fasi iniziali non corrispondono alla data attuale. Non sono calcolate perturbazioni gravitazionali, baricentri, precessione, eclissi o rotazioni caotiche. Molte inclinazioni degli assi restano schematiche.</p>
+<p>Le fasce mostrano campioni decorativi di detriti, non oggetti catalogati individualmente. Le code delle comete sono illustrative e puntano in direzione opposta al Sole. Gli anelli sono semplificati.</p>
+<h2>Stelle</h2>
+<p>Il Sole è l’unica stella inclusa come corpo esplorabile. Proxima Centauri (circa 4,25 anni luce) e Sirio (circa 8,6) sono fuori dal sistema solare e non vengono collocate artificiosamente tra i pianeti. Lo sfondo stellato è decorativo, non rappresenta costellazioni reali.</p>
+<h2>Software e funzionamento offline</h2>
+<p>Three.js 0.170.0, licenza MIT: <a href="vendor/THREE-LICENSE.txt">testo della licenza</a>. Tutte le librerie e le mappe necessarie sono locali. Le pagine esterne di approfondimento richiedono Internet.</p>
+</body></html>

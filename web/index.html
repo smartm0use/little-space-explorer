@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Little Space Explorer — An interactive solar system for curious kids</title>
+  <meta name="description" content="An interactive solar system for curious kids. Explore 55 celestial bodies, real planetary maps, moons, asteroids and comets in your browser.">
+  <meta name="theme-color" content="#030711">
+  <meta property="og:title" content="Little Space Explorer">
+  <meta property="og:description" content="An interactive solar system for curious kids">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://smartm0use.github.io/little-space-explorer/">
+  <meta property="og:image" content="https://smartm0use.github.io/little-space-explorer/anteprima-terra.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="atlas.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/"}}</script>
+</head>
+<body>
+  <main id="universe" aria-label="Sistema solare tridimensionale interattivo"></main>
+  <div id="labels" aria-hidden="true"></div>
+  <header>
+    <div class="eyebrow">EXPLORE · DISCOVER · WONDER</div>
+    <h1 lang="en">Little Space Explorer<span>.</span></h1>
+    <p lang="en">An interactive solar system for curious kids</p>
+  </header>
+  <button id="panel-toggle" aria-expanded="true" aria-controls="explore-panel">Nascondi controlli</button>
+  <aside class="panel" id="explore-panel" aria-label="Controlli di esplorazione">
+    <div class="eyebrow">ESPLORA</div>
+    <label for="destination">Destinazione</label>
+    <select id="destination"><option value="overview">Vista d’insieme</option><option value="outer">Sistema esterno · fino a Sedna</option></select>
+    <div class="row"><button id="home">↗ Vista generale</button><button id="pause" aria-pressed="false">Ⅱ Pausa</button></div>
+    <button id="surface" disabled>◎ Avvicina alla superficie</button>
+    <label for="speed">Scorrimento del tempo</label>
+    <output id="speed-value" for="speed"></output>
+    <div class="speed-control"><button id="slower" aria-label="Velocità precedente">−</button><input id="speed" type="range" min="0" max="19" value="13" step="1"><button id="faster" aria-label="Velocità successiva">+</button></div>
+    <div class="speed-shortcuts"><button id="realtime">1× Reale</button><button id="day-speed">1 g/s</button><button id="year-speed">1 anno/s</button></div>
+    <p id="time-note">Tutti i corpi condividono lo stesso tempo.</p>
+    <div id="elapsed" aria-label="Tempo simulato trascorso">+ 0 g · 00:00:00</div>
+    <label for="detail">Dettaglio grafico</label>
+    <select id="detail"><option value="standard">Bilanciato · mappe 2K</option><option value="high">Alto · Terra 4K e superfici più fini</option></select>
+    <div class="toggles">
+      <label><input id="orbits" type="checkbox" checked> Orbite</label>
+      <label><input id="names" type="checkbox" checked> Nomi</label>
+      <label><input id="moons" type="checkbox" checked> Lune</label>
+      <label><input id="debris" type="checkbox" checked> Fasce di detriti</label>
+      <label class="wide"><input id="minor" type="checkbox" checked> Pianeti nani e piccoli corpi</label>
+    </div>
+    <section id="info" aria-live="polite">
+      <h2>Il nostro vicinato cosmico</h2>
+      <p>Seleziona un corpo per seguirlo da vicino. Il catalogo include i cinque pianeti nani riconosciuti, grandi oggetti transnettuniani, asteroidi e comete note.</p>
+    </section>
+    <div class="key"><i class="asteroid"></i> Fascia degli asteroidi <span>tra Marte e Giove</span></div>
+    <div class="key"><i class="kuiper"></i> Fascia di Kuiper <span>oltre Nettuno</span></div>
+    <details><summary>E le altre stelle?</summary><p>Il Sole è l’unica stella del sistema solare. Proxima Centauri dista circa 4,25 anni luce; Sirio circa 8,6. Sono immensamente più lontane di Plutone e non orbitano attorno al Sole. Lo sfondo stellato è decorativo, non una mappa del cielo.</p></details>
+    <a class="credits" href="credits.html" target="_blank" rel="noopener">Mappe, fonti e limiti del modello ↗</a>
+  </aside>
+  <footer>
+    <div><b>Trascina</b> per ruotare · <b>Rotella / pizzica</b> per zoom · <b>Tasto destro / due dita</b> per spostarti</div>
+    <small>Scale spaziali adattate, posizioni illustrative. 1× = 1 secondo simulato al secondo; periodi medi reali, senza effemeridi.</small>
+  </footer>
+  <div id="status" role="status">Preparazione dell’universo…</div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

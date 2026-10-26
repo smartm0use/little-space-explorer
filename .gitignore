@@ -1,0 +1,15 @@
+.venv/
+.tools/
+.python/
+.cache/
+__pycache__/
+
+# Local assets from the original video experiment.
+sistema_solare.py
+SistemaSolare.mp4
+SistemaSolare.storyboard.png
+*.mp4.part
+
+# Original texture sources not loaded by the website.
+web/assets/textures/8k_earth_daymap.jpg
+web/assets/textures/2k_earth_nightmap.jpg
