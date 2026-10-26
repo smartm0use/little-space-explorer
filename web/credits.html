@@ -1,9 +1,35 @@
 <!doctype html>
-<html lang="it">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fonti e modello · Little Space Explorer</title><link rel="icon" href="favicon.svg" type="image/svg+xml">
-<style>body{margin:40px auto;padding:0 24px;max-width:780px;background:#08111f;color:#dce9f4;font:16px/1.75 system-ui}a{color:#80d7cf}h1,h2{line-height:1.3}h2{margin-top:38px}li{margin:8px 0}small{color:#a1b7ce}</style></head>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maps, sources and model limitations · Little Space Explorer</title><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>body{margin:40px auto;padding:0 24px;max-width:780px;background:#08111f;color:#dce9f4;font:16px/1.75 system-ui}a{color:#80d7cf}h1,h2{line-height:1.3}h2{margin-top:38px}li{margin:8px 0}small{color:#a1b7ce}.language-row{display:flex;align-items:center;gap:12px;margin:20px 0}select{font:inherit;color:#edf4ff;background:#142238;border:1px solid #304159;border-radius:7px;padding:6px}select:focus-visible{outline:2px solid #80d7cf}</style></head>
 <body>
-<a href="index.html">← Torna a Little Space Explorer</a>
+<a href="index.html" data-i18n="back">← Back to Little Space Explorer</a>
+<div class="language-row"><label for="language" data-i18n="language">Language</label><select id="language" class="language-select"><option value="en" lang="en">English</option><option value="it" lang="it">Italiano</option></select></div>
+<article lang="en" data-language="en">
+<h1>Maps, sources and model limitations</h1>
+<p>An illustrative atlas of the main bodies in our solar system: not a complete catalog or a tool for predicting positions in the sky.</p>
+<h2>Continents and planetary surfaces</h2>
+<p>Maps by <a href="https://www.solarsystemscope.com/textures/">Solar System Scope / INOVE</a>, distributed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>. Based on NASA images and data; Earth also uses NASA Blue Marble. The authors adjusted colors and reconstructed some unmapped regions.</p>
+<p>The Sun, Mercury, Venus’s atmosphere, Earth, the Moon, Mars, Jupiter, Saturn, Uranus and Neptune use local 2K maps. High detail uses a 4K Earth map, downscaled from the 8K original to limit memory use. Lighting and materials alter their appearance. Current weather is not simulated.</p>
+<p>Other bodies have procedural surfaces and simplified shapes: they are not photographs or observed geographical maps. This also applies to Pluto and Ceres.</p>
+<h2>Catalog and astronomical data</h2>
+<ul>
+<li><a href="https://science.nasa.gov/solar-system/">NASA · Solar system</a> and <a href="https://science.nasa.gov/dwarf-planets/">dwarf planets</a>: categories and descriptions. The five recognized dwarf planets are distinguished from trans-Neptunian candidates.</li>
+<li><a href="https://ssd.jpl.nasa.gov/planets/phys_par.html">JPL · Planetary physical parameters</a>, <a href="https://ssd.jpl.nasa.gov/sats/">satellites</a> and the <a href="https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html">Small-Body Database</a>: references for mean periods and small bodies. Catalog values are approximate and are not updated live.</li>
+<li>Pluto and its five moons; the planets’ major moons; Dysnomia, Hiʻiaka, Namaka, Weywot and Vanth. Not every known satellite is represented.</li>
+</ul>
+<h2>What “real time” means</h2>
+<p><strong>1× = one simulated second per real second.</strong> 2× and 3× mean two and three simulated seconds per second. 86,400× equals one day per second. The factor is identical for planetary orbits, lunar orbits and modeled rotation, with no separate slowdown for moons.</p>
+<p>Time uses the browser clock rather than frame counts. It catches up when you return to a background tab, unless paused. Sidereal periods are averages; moons whose rotation is not modeled stay still on their own axes. At very high speeds, frame sampling may make rapid motion appear frozen or reversed.</p>
+<h2>Scales and simplifications</h2>
+<p>Sizes and distances are adapted and cannot be compared to scale. Planets follow circular orbits; small bodies follow illustrative Keplerian ellipses with simplified inclinations and nodes. Distant objects also have compressed eccentricity. Initial phases do not match the current date. Gravitational perturbations, barycenters, precession, eclipses and chaotic rotations are not calculated. Many axial tilts remain schematic.</p>
+<p>The belts show decorative samples of debris, not individually cataloged objects. Comet tails are illustrative and point away from the Sun. Rings are simplified.</p>
+<h2>Stars</h2>
+<p>The Sun is the only explorable star. Proxima Centauri (about 4.25 light-years away) and Sirius (about 8.6) lie outside the solar system and are not artificially placed among the planets. The starry background is decorative and does not depict real constellations.</p>
+<h2>Software and offline use</h2>
+<p>Three.js 0.170.0, MIT license: <a href="vendor/THREE-LICENSE.txt">license text</a>. All required libraries and maps are local. External reference pages need an Internet connection.</p>
+</article>
+<article lang="it" data-language="it" hidden>
 <h1>Mappe, fonti e limiti del modello</h1>
 <p>Un atlante illustrativo dei principali corpi del sistema solare: non un catalogo completo e non uno strumento per prevedere le posizioni nel cielo.</p>
 <h2>Continenti e superfici planetarie</h2>
@@ -26,4 +52,6 @@
 <p>Il Sole è l’unica stella inclusa come corpo esplorabile. Proxima Centauri (circa 4,25 anni luce) e Sirio (circa 8,6) sono fuori dal sistema solare e non vengono collocate artificiosamente tra i pianeti. Lo sfondo stellato è decorativo, non rappresenta costellazioni reali.</p>
 <h2>Software e funzionamento offline</h2>
 <p>Three.js 0.170.0, licenza MIT: <a href="vendor/THREE-LICENSE.txt">testo della licenza</a>. Tutte le librerie e le mappe necessarie sono locali. Le pagine esterne di approfondimento richiedono Internet.</p>
+</article>
+<script type="module" src="credits.mjs"></script>
 </body></html>

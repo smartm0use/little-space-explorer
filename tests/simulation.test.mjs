@@ -38,9 +38,11 @@ test('an old animation timestamp cannot move the clock backwards or add time twi
 
 test('selector includes 1×, 2×, 3× and unambiguous conversion labels', () => {
   assert.deepEqual(SPEEDS.slice(0, 3), [1, 2, 3]);
-  assert.match(speedLabel(1), /tempo reale/);
+  assert.match(speedLabel(1), /real time/);
+  assert.match(speedLabel(1, 'it'), /tempo reale/);
   assert.match(speedLabel(2), /2×.*2 s\/s/);
-  assert.match(speedLabel(DAY), /86\.400×.*1 g\/s/);
+  assert.match(speedLabel(DAY), /86,400×.*1 d\/s/);
+  assert.match(speedLabel(DAY, 'it'), /86\.400×.*1 g\/s/);
   assert.ok(SPEEDS.every((value, index) => index === 0 || value > SPEEDS[index - 1]));
 });
 

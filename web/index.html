@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,49 +17,50 @@
   <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/"}}</script>
 </head>
 <body>
-  <main id="universe" aria-label="Sistema solare tridimensionale interattivo"></main>
+  <main id="universe" data-i18n-aria="universe" aria-label="Interactive three-dimensional solar system"></main>
   <div id="labels" aria-hidden="true"></div>
   <header>
     <div class="eyebrow">EXPLORE · DISCOVER · WONDER</div>
     <h1 lang="en">Little Space Explorer<span>.</span></h1>
     <p lang="en">An interactive solar system for curious kids</p>
   </header>
-  <button id="panel-toggle" aria-expanded="true" aria-controls="explore-panel">Nascondi controlli</button>
-  <aside class="panel" id="explore-panel" aria-label="Controlli di esplorazione">
-    <div class="eyebrow">ESPLORA</div>
-    <label for="destination">Destinazione</label>
-    <select id="destination"><option value="overview">Vista d’insieme</option><option value="outer">Sistema esterno · fino a Sedna</option></select>
-    <div class="row"><button id="home">↗ Vista generale</button><button id="pause" aria-pressed="false">Ⅱ Pausa</button></div>
-    <button id="surface" disabled>◎ Avvicina alla superficie</button>
-    <label for="speed">Scorrimento del tempo</label>
+  <button id="panel-toggle" aria-expanded="true" aria-controls="explore-panel">Hide controls</button>
+  <aside class="panel" id="explore-panel" data-i18n-aria="controls" aria-label="Exploration controls">
+    <div class="eyebrow" data-i18n="explore">EXPLORE</div>
+    <div class="language-row"><label for="language" data-i18n="language">Language</label><select id="language" class="language-select"><option value="en" lang="en">English</option><option value="it" lang="it">Italiano</option></select></div>
+    <label for="destination" data-i18n="destination">Destination</label>
+    <select id="destination"><option value="overview" data-i18n="overview">Overview</option><option value="outer" data-i18n="outer">Outer solar system · out to Sedna</option></select>
+    <div class="row"><button id="home" data-i18n="home">↗ Overview</button><button id="pause" aria-pressed="false">Ⅱ Pause</button></div>
+    <button id="surface" data-i18n="surface" disabled>◎ Take a closer look</button>
+    <label for="speed" data-i18n="time">Time speed</label>
     <output id="speed-value" for="speed"></output>
-    <div class="speed-control"><button id="slower" aria-label="Velocità precedente">−</button><input id="speed" type="range" min="0" max="19" value="13" step="1"><button id="faster" aria-label="Velocità successiva">+</button></div>
-    <div class="speed-shortcuts"><button id="realtime">1× Reale</button><button id="day-speed">1 g/s</button><button id="year-speed">1 anno/s</button></div>
-    <p id="time-note">Tutti i corpi condividono lo stesso tempo.</p>
-    <div id="elapsed" aria-label="Tempo simulato trascorso">+ 0 g · 00:00:00</div>
-    <label for="detail">Dettaglio grafico</label>
-    <select id="detail"><option value="standard">Bilanciato · mappe 2K</option><option value="high">Alto · Terra 4K e superfici più fini</option></select>
+    <div class="speed-control"><button id="slower" data-i18n-aria="slower" aria-label="Previous speed">−</button><input id="speed" type="range" min="0" max="19" value="13" step="1"><button id="faster" data-i18n-aria="faster" aria-label="Next speed">+</button></div>
+    <div class="speed-shortcuts"><button id="realtime" data-i18n="realtime">1× Real time</button><button id="day-speed" data-i18n="daySpeed">1 day/s</button><button id="year-speed" data-i18n="yearSpeed">1 year/s</button></div>
+    <p id="time-note"></p>
+    <div id="elapsed" data-i18n-aria="elapsed" aria-label="Elapsed simulation time">+ 0 d · 00:00:00</div>
+    <label for="detail" data-i18n="detail">Graphics detail</label>
+    <select id="detail"><option value="standard" data-i18n="standard">Balanced · 2K maps</option><option value="high" data-i18n="high">High · 4K Earth and finer surfaces</option></select>
     <div class="toggles">
-      <label><input id="orbits" type="checkbox" checked> Orbite</label>
-      <label><input id="names" type="checkbox" checked> Nomi</label>
-      <label><input id="moons" type="checkbox" checked> Lune</label>
-      <label><input id="debris" type="checkbox" checked> Fasce di detriti</label>
-      <label class="wide"><input id="minor" type="checkbox" checked> Pianeti nani e piccoli corpi</label>
+      <label><input id="orbits" type="checkbox" checked> <span data-i18n="orbits">Orbits</span></label>
+      <label><input id="names" type="checkbox" checked> <span data-i18n="names">Names</span></label>
+      <label><input id="moons" type="checkbox" checked> <span data-i18n="moons">Moons</span></label>
+      <label><input id="debris" type="checkbox" checked> <span data-i18n="debris">Debris belts</span></label>
+      <label class="wide"><input id="minor" type="checkbox" checked> <span data-i18n="minor">Dwarf planets and small bodies</span></label>
     </div>
     <section id="info" aria-live="polite">
-      <h2>Il nostro vicinato cosmico</h2>
-      <p>Seleziona un corpo per seguirlo da vicino. Il catalogo include i cinque pianeti nani riconosciuti, grandi oggetti transnettuniani, asteroidi e comete note.</p>
+      <h2 data-i18n="neighborhood">Our cosmic neighborhood</h2>
+      <p data-i18n="introduction">Choose a body to follow it up close. Explore dwarf planets, moons, asteroids and comets.</p>
     </section>
-    <div class="key"><i class="asteroid"></i> Fascia degli asteroidi <span>tra Marte e Giove</span></div>
-    <div class="key"><i class="kuiper"></i> Fascia di Kuiper <span>oltre Nettuno</span></div>
-    <details><summary>E le altre stelle?</summary><p>Il Sole è l’unica stella del sistema solare. Proxima Centauri dista circa 4,25 anni luce; Sirio circa 8,6. Sono immensamente più lontane di Plutone e non orbitano attorno al Sole. Lo sfondo stellato è decorativo, non una mappa del cielo.</p></details>
-    <a class="credits" href="credits.html" target="_blank" rel="noopener">Mappe, fonti e limiti del modello ↗</a>
+    <div class="key"><i class="asteroid"></i> <b data-i18n="asteroidBelt">Asteroid belt</b><span data-i18n="asteroidLocation">between Mars and Jupiter</span></div>
+    <div class="key"><i class="kuiper"></i> <b data-i18n="kuiperBelt">Kuiper belt</b><span data-i18n="kuiperLocation">beyond Neptune</span></div>
+    <details><summary data-i18n="otherStars">What about other stars?</summary><p data-i18n="starsText">The Sun is the only star in our solar system. The starry background is decorative, not a sky map.</p></details>
+    <a class="credits" href="credits.html" target="_blank" rel="noopener" data-i18n="creditsLink">Maps, sources and model limitations ↗</a>
   </aside>
   <footer>
-    <div><b>Trascina</b> per ruotare · <b>Rotella / pizzica</b> per zoom · <b>Tasto destro / due dita</b> per spostarti</div>
-    <small>Scale spaziali adattate, posizioni illustrative. 1× = 1 secondo simulato al secondo; periodi medi reali, senza effemeridi.</small>
+    <div data-i18n="gestureHelp">Drag to orbit · Scroll / pinch to zoom · Right-drag / two fingers to pan</div>
+    <small data-i18n="modelNote">Spatial scales are adapted; positions are illustrative. 1× = one simulated second per second; real mean periods, not ephemerides.</small>
   </footer>
-  <div id="status" role="status">Preparazione dell’universo…</div>
+  <div id="status" role="status">Preparing your universe…</div>
   <script type="module" src="app.js"></script>
 </body>
 </html>

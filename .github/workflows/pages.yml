@@ -27,8 +27,10 @@ jobs:
           node --check web/app.js
           node --check web/catalog.js
           node --check web/simulation.mjs
-      - name: Test simulation clock and orbits
-        run: node --test tests/simulation.test.mjs
+          node --check web/i18n.mjs
+          node --check web/credits.mjs
+      - name: Test simulation and localization
+        run: node --test tests/*.test.mjs
 
   deploy:
     if: github.event_name != 'pull_request'

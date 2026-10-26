@@ -1,9 +1,10 @@
 export const DAY = 86400;
 export const SPEEDS = [1, 2, 3, 5, 10, 30, 60, 300, 600, 1800, 3600, 21600, 43200, DAY, 3 * DAY, 7 * DAY, 12 * DAY, 30 * DAY, 90 * DAY, 365.25 * DAY];
-const number = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 2 });
-export function speedLabel(rate) {
-  const unit = rate < 60 ? `${number.format(rate)} s/s` : rate < 3600 ? `${number.format(rate / 60)} min/s` : rate < DAY ? `${number.format(rate / 3600)} h/s` : `${number.format(rate / DAY)} g/s`;
-  return `${number.format(rate)}× (${rate === 1 ? 'tempo reale · ' : ''}${unit})`;
+export function speedLabel(rate, language = 'en') {
+  const italian = language === 'it';
+  const number = new Intl.NumberFormat(italian ? 'it-IT' : 'en-US', { maximumFractionDigits: 2 });
+  const unit = rate < 60 ? `${number.format(rate)} s/s` : rate < 3600 ? `${number.format(rate / 60)} min/s` : rate < DAY ? `${number.format(rate / 3600)} h/s` : `${number.format(rate / DAY)} ${italian ? 'g/s' : 'd/s'}`;
+  return `${number.format(rate)}× (${rate === 1 ? (italian ? 'tempo reale · ' : 'real time · ') : ''}${unit})`;
 }
 
 // Wall-clock delta, not frame counts: 1× stays real-time even on a slow GPU.

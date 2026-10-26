@@ -2,18 +2,26 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
 import { surfaces, rotations, minorBodies, extraMoons } from './catalog.js';
 import { DAY, SPEEDS, speedLabel, SimulationClock, orbitalAngle, orbitPoint } from './simulation.mjs';
+import { initLanguageUI, getLanguage, locale, t, displayName, bodyDescription } from './i18n.mjs';
 
 const $ = (id) => document.getElementById(id);
+initLanguageUI();
+function setStatus(key) {
+  if (key) $('status').dataset.i18n = key;
+  else delete $('status').dataset.i18n;
+  $('status').textContent = key ? t(key) : '';
+}
+setStatus('loading');
 $('panel-toggle').addEventListener('click', () => {
   const panel = $('explore-panel'); panel.hidden = !panel.hidden;
   $('panel-toggle').setAttribute('aria-expanded', String(!panel.hidden));
-  $('panel-toggle').textContent = panel.hidden ? 'Mostra controlli' : 'Nascondi controlli';
+  $('panel-toggle').textContent = t(panel.hidden ? 'showControls' : 'hideControls');
 });
 matchMedia('(max-width: 700px)').addEventListener('change', event => {
   if (!event.matches) {
     $('explore-panel').hidden = false;
     $('panel-toggle').setAttribute('aria-expanded', 'true');
-    $('panel-toggle').textContent = 'Nascondi controlli';
+    $('panel-toggle').textContent = t('hideControls');
   }
 });
 const scene = new THREE.Scene();
@@ -24,7 +32,7 @@ let renderer;
 try {
   renderer = new THREE.WebGLRenderer({ antialias: true });
 } catch (error) {
-  $('status').textContent = 'WebGL non disponibile. Apri questa pagina in un browser con accelerazione grafica attiva.';
+  setStatus('webglError');
   throw error;
 }
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
@@ -66,7 +74,7 @@ function loadMap(file) {
       return map;
     }).catch(() => {
       textureFailure = true;
-      $('status').textContent = 'Una mappa non è disponibile: uso la superficie illustrativa. Ricarica per riprovare.';
+      setStatus('mapError');
       return null;
     }));
   }
@@ -109,9 +117,9 @@ function texture(color, kind) {
 
 function addLabel(text, object, type = '') {
   const el = document.createElement('div');
-  el.className = `label ${type}`; el.textContent = text;
+  el.className = `label ${type}`; el.textContent = displayName(text);
   $('labels').appendChild(el);
-  const entry = { el, object, type };
+  const entry = { el, object, type, name: text };
   labelRecords.push(entry);
   return entry;
 }
@@ -187,8 +195,7 @@ const moonData = {
 for (const [planet, list] of Object.entries(moonData)) {
   const parent = byName[planet];
   for (const [name, radius, distance, period, color] of list) {
-    const moon = makeBody({ name, radius, distance, period, color, parent,
-      description: `${name}, satellite naturale di ${planet}. Periodo orbitale reale: ${Math.abs(period).toLocaleString('it-IT')} giorni terrestri.${period < 0 ? ' Orbita retrograda: si muove in senso opposto alla rotazione di Nettuno.' : ''} Dimensione e distanza dalla superficie sono amplificate in questa vista.` });
+    const moon = makeBody({ name, radius, distance, period, color, parent });
     parent.moons.push(moon);
     if (['Stige', 'Notte', 'Cerbero', 'Idra'].includes(name)) moon.rotationPeriod = null;
     if (['Fobos', 'Deimos', 'Proteo'].includes(name)) moon.mesh.scale.set(1.3, .8, 1);
@@ -245,21 +252,29 @@ scene.add(new THREE.Points(new THREE.BufferGeometry().setAttribute('position', n
   new THREE.PointsMaterial({ color: '#b4c8e3', size: .65, transparent: true, opacity: .8, depthWrite: false })));
 
 const destination = $('destination');
-function option(body, target) { const el = document.createElement('option'); el.value = body.name; el.textContent = body.name; target.appendChild(el); }
-option(sun, destination);
-for (const planet of planets) {
-  const group = document.createElement('optgroup'); group.label = planet.name;
-  option(planet, group); planet.moons.forEach(moon => option(moon, group)); destination.appendChild(group);
-}
-for (const category of [...new Set(smallBodies.map(b => b.category))]) {
-  const group = document.createElement('optgroup'); group.label = category;
-  for (const body of smallBodies.filter(b => b.category === category)) {
-    option(body, group);
-    for (const moon of body.moons) {
-      option(moon, group); group.lastChild.textContent = `↳ ${moon.name} (${body.name})`;
-    }
+function option(body, target) { const el = document.createElement('option'); el.value = body.name; el.textContent = displayName(body.name); target.appendChild(el); }
+function buildDestinations() {
+  const value = destination.value || 'overview';
+  destination.replaceChildren();
+  for (const key of ['overview', 'outer']) {
+    const el = document.createElement('option'); el.value = key; el.textContent = t(key); destination.appendChild(el);
   }
-  destination.appendChild(group);
+  option(sun, destination);
+  for (const planet of planets) {
+    const group = document.createElement('optgroup'); group.label = displayName(planet.name);
+    option(planet, group); planet.moons.forEach(moon => option(moon, group)); destination.appendChild(group);
+  }
+  for (const category of [...new Set(smallBodies.map(b => b.category))]) {
+    const group = document.createElement('optgroup'); group.label = displayName(category);
+    for (const body of smallBodies.filter(b => b.category === category)) {
+      option(body, group);
+      for (const moon of body.moons) {
+        option(moon, group); group.lastChild.textContent = `↳ ${displayName(moon.name)} (${displayName(body.name)})`;
+      }
+    }
+    destination.appendChild(group);
+  }
+  destination.value = value;
 }
 function focus(body, closeup = false, outer = false) {
   selected = body;
@@ -271,40 +286,47 @@ function focus(body, closeup = false, outer = false) {
   const direction = new THREE.Vector3(.3, .58, 1).normalize();
   transition = { start: performance.now(), from: camera.position.clone(), targetFrom: controls.target.clone(), offset: direction.multiplyScalar(distance) };
   controls.minDistance = body ? Math.max(body.radius * 1.6, .12) : .4;
+  renderInfo(body);
+  if ((body?.minor || body?.parent?.minor) && !$('minor').checked) { $('minor').checked = true; updateMinorVisibility(); }
+  if (body?.parent && !$('moons').checked) { $('moons').checked = true; updateMoonVisibility(); }
+  updateDetail();
+}
+function renderInfo(body) {
   $('info').replaceChildren();
-  const heading = document.createElement('h2'); heading.textContent = body?.name || 'Il nostro vicinato cosmico';
+  const heading = document.createElement('h2'); heading.textContent = body ? displayName(body.name) : t('neighborhood');
   const description = document.createElement('p');
-  description.textContent = body ? body.description : 'Seleziona un pianeta per seguirlo da vicino. La fascia degli asteroidi contiene soprattutto corpi rocciosi; la fascia di Kuiper è una vasta regione di piccoli corpi ghiacciati oltre Nettuno. Le particelle sono rappresentative, non un catalogo di oggetti reali.';
+  description.textContent = body ? bodyDescription(body) : t('introduction');
   $('info').append(heading, description);
   $('surface').disabled = !body;
   if (body) {
     const facts = document.createElement('div'); facts.className = 'facts';
-    const days = n => `${Math.abs(n).toLocaleString('it-IT', { maximumFractionDigits: 3 })} g`;
-    const period = body.distance ? `${body.parent ? 'Orbita attorno a ' + body.parent.name : 'Orbita attorno al Sole'}: ${days(body.period)}${body.period < 0 ? ' · retrograda' : ''}` : 'Stella del sistema solare';
-    facts.textContent = `${body.category} · ${period}${body.rotationPeriod ? ' · Rotazione: ' + days(body.rotationPeriod) : ' · Rotazione non modellata'}`;
+    const days = n => `${Math.abs(n).toLocaleString(locale(), { maximumFractionDigits: 3 })} ${t('dayUnit')}`;
+    const period = body.distance ? `${t('orbitAround', { name: displayName(body.parent?.name ?? 'Sole') })}: ${days(body.period)}${body.period < 0 ? t('retrograde') : ''}` : t('solarStar');
+    facts.textContent = `${displayName(body.category)} · ${period}${body.rotationPeriod ? t('rotation', { period: days(body.rotationPeriod) }) : t('noRotation')}`;
     const source = document.createElement('p'); source.className = 'map-source';
-    source.textContent = surfaces[body.name] ? 'Mappa: Solar System Scope / INOVE, dati NASA · CC BY 4.0. Colori adattati.' : 'Superficie e forma illustrative: non una mappa fotografica.';
+    source.textContent = t(surfaces[body.name] ? 'mapSource' : 'procedural');
     $('info').append(facts, source);
   }
-  if ((body?.minor || body?.parent?.minor) && !$('minor').checked) { $('minor').checked = true; updateMinorVisibility(); }
-  if (body?.parent && !$('moons').checked) { $('moons').checked = true; updateMoonVisibility(); }
-  updateDetail();
 }
 destination.addEventListener('change', () => focus(records.find(r => r.name === destination.value) || null, false, destination.value === 'outer'));
 $('home').addEventListener('click', () => focus(null));
 $('surface').addEventListener('click', () => { if (selected) focus(selected, true); });
 $('pause').addEventListener('click', () => {
   paused = !paused; simulation.setPaused(paused, performance.now());
-  $('pause').textContent = paused ? '▶ Riprendi' : 'Ⅱ Pausa'; $('pause').setAttribute('aria-pressed', String(paused));
+  $('pause').textContent = t(paused ? 'resume' : 'pause'); $('pause').setAttribute('aria-pressed', String(paused));
 });
 function setSpeed(index) {
   index = Math.max(0, Math.min(SPEEDS.length - 1, index));
   $('speed').value = String(index);
   simulation.setRate(SPEEDS[index], performance.now());
-  $('speed-value').textContent = speedLabel(SPEEDS[index]);
-  $('speed').setAttribute('aria-valuetext', speedLabel(SPEEDS[index]));
+  renderSpeed();
+}
+function renderSpeed() {
+  const index = Number($('speed').value);
+  $('speed-value').textContent = speedLabel(SPEEDS[index], getLanguage());
+  $('speed').setAttribute('aria-valuetext', speedLabel(SPEEDS[index], getLanguage()));
   $('slower').disabled = index === 0; $('faster').disabled = index === SPEEDS.length - 1;
-  $('time-note').textContent = index === 0 ? 'Tempo reale: i moti orbitali sono quasi impercettibili.' : 'Stesso fattore per pianeti, lune e rotazioni. A velocità elevate i moti rapidi possono sembrare fermi o invertiti.';
+  $('time-note').textContent = t(index === 0 ? 'realNote' : 'timeNote');
 }
 $('speed').addEventListener('input', () => setSpeed(Number($('speed').value)));
 $('slower').addEventListener('click', () => setSpeed(Number($('speed').value) - 1));
@@ -376,7 +398,7 @@ function frame(now) {
   kuiperBelt.rotation.y = orbitalAngle(elapsedDays, 95000);
   if (now - lastTimeDisplay > 250) {
     const total = Math.floor(simulation.seconds), pad = n => String(n).padStart(2, '0');
-    $('elapsed').textContent = `+ ${Math.floor(total / DAY).toLocaleString('it-IT')} g · ${pad(Math.floor(total / 3600) % 24)}:${pad(Math.floor(total / 60) % 60)}:${pad(total % 60)}`;
+    $('elapsed').textContent = `+ ${Math.floor(total / DAY).toLocaleString(locale())} ${t('dayUnit')} · ${pad(Math.floor(total / 3600) % 24)}:${pad(Math.floor(total / 60) % 60)}:${pad(total % 60)}`;
     lastTimeDisplay = now;
   }
   scene.updateMatrixWorld(true);
@@ -424,5 +446,19 @@ function frame(now) {
   }
   renderer.render(scene, camera);
 }
-if (!textureFailure) $('status').textContent = '';
+function refreshLanguage() {
+  buildDestinations();
+  renderInfo(selected);
+  renderSpeed();
+  $('panel-toggle').textContent = t($('explore-panel').hidden ? 'showControls' : 'hideControls');
+  $('pause').textContent = t(paused ? 'resume' : 'pause');
+  for (const label of labelRecords) {
+    label.el.textContent = displayName(label.name);
+    delete label.width;
+  }
+  lastTimeDisplay = -Infinity;
+}
+window.addEventListener('app-languagechange', refreshLanguage);
+refreshLanguage();
+if (!textureFailure) setStatus('');
 requestAnimationFrame(frame);
